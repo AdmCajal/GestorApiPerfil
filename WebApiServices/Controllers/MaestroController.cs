@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -245,19 +246,26 @@ namespace WebApiServices.Controllers
         #region MaestroDetalleTabla
 
         [Route("api/Maestro/ListaTablaMaestroDetalle")]
-        public IEnumerable<WCO_ListarTablaMaestroDetalle_Result> ListaTablaMaestroDetalle(WCO_ListarTablaMaestroDetalle_Result ObjDetalle)
+        public IHttpActionResult ListaTablaMaestroDetalle(WCO_ListarTablaMaestroDetalle_Result ObjDetalle)
         {
             List<WCO_ListarTablaMaestroDetalle_Result> lst = new List<WCO_ListarTablaMaestroDetalle_Result>();
+            ViewModalExite response = new ViewModalExite();
+
             try
             {
                 ADDAT_TablaMaestroDetalle MaDet = new ADDAT_TablaMaestroDetalle();
                 lst = MaDet.ListaTablaMaestroDetalle(ObjDetalle);
-            }
-            catch
-            {
 
+                response.success = lst.Count > 0 ? true : false;
+                response.data = lst;
+                response.mensaje = "Datos maestros obtenidos";
             }
-            return lst;
+            catch (Exception ex)
+            {
+                response.mensaje = $"Se generó un error: {ex.Message}";
+            }
+            return Ok(response);
+
         }
 
 

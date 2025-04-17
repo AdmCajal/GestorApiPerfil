@@ -375,18 +375,24 @@ namespace WebApiServices.Controllers
 
         [HttpPost]
         [Route("api/Seguridad/ListaUsuario")]
-        public IEnumerable<WCO_ListarUsuario_Result> ListaUsuario(WCO_ListarUsuario_Result ObjDetalle)
+        public IHttpActionResult ListaUsuario(WCO_ListarUsuario_Result ObjDetalle)
         {
             List<WCO_ListarUsuario_Result> lst = new List<WCO_ListarUsuario_Result>();
+            ViewModalExite response = new ViewModalExite();
+
             try
             {
                 lst = Usuario.ListarUsuario(ObjDetalle);
-            }
-            catch
-            {
 
+                response.success = lst.Count > 0 ? true : false;
+                response.data = lst;
+                response.mensaje = "Usuarios obtenidos";
             }
-            return lst;
+            catch (Exception ex)
+            {
+                response.mensaje = $"Se generó un error: {ex.Message}";
+            }
+            return Ok(response);
         }
 
         [Authorize]
@@ -494,18 +500,24 @@ namespace WebApiServices.Controllers
         [Authorize]
         [HttpPost]
         [Route("api/Seguridad/ListarMenu")]
-        public IEnumerable<WCO_PerfilPaginas_Result> ListarMenu(WCO_PerfilPaginas_Result ObjDetalle)
+        public IHttpActionResult ListarMenu(WCO_PerfilPaginas_Result ObjDetalle)
         {
             List<WCO_PerfilPaginas_Result> lst = new List<WCO_PerfilPaginas_Result>();
+            ViewModalExite response = new ViewModalExite();
+
             try
             {
                 lst = m.ListaPerfilPaginas(ObjDetalle);
-            }
-            catch
-            {
 
+                response.success = lst.Count > 0 ? true : false;
+                response.data = lst;
+                response.mensaje = "Menu obtenido";
             }
-            return lst;
+            catch (Exception ex)
+            {
+                response.mensaje = $"Se generó un error: {ex.Message}";
+            }
+            return Ok(response);
         }
 
         #endregion

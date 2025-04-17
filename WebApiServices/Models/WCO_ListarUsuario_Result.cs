@@ -10,9 +10,11 @@
 namespace WebApiServices.Models
 {
     using System;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class WCO_ListarUsuario_Result
     {
+        [Column("USUARIO")]
         public string USUARIO { get; set; }
         public string TipoDocumento { get; set; }
         public string NOMBRECOMPLETO { get; set; }
